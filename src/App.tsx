@@ -12,7 +12,7 @@ export type TaskType = {
     isDone: boolean
 }
 
-type TodolistType = {  //создаем типизацию для всех тудулистов
+export type TodolistType = {  //создаем типизацию для всех тудулистов
     id: string
     title: string
     filter: FilterValuesType
