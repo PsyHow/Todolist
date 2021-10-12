@@ -18,7 +18,7 @@ export type TodolistType = {  //создаем типизацию для все�
     filter: FilterValuesType
 }
 
-type TaskStateType = {             //создаем типизацию для Тасков тудулиста
+export type TasksStateType = {             //создаем типизацию для Тасков тудулиста
     [key: string]: TaskType[]
 }
 
@@ -34,7 +34,7 @@ export function App() {
         {id: todolistID_2, title: "What to buy", filter: "all"}
     ])
 
-    const [tasks, setTasks] = useState<TaskStateType>({  //отдельный стейт для тасков тудулиста
+    const [tasks, setTasks] = useState<TasksStateType>({  //отдельный стейт для тасков тудулиста
         [todolistID_1]: [
             {id: v1(), title: "JS", isDone: false},
             {id: v1(), title: "CSS", isDone: false},
@@ -108,7 +108,7 @@ export function App() {
         }
         return (
             <Grid item key={t.id}>
-                <Paper elevation={5} style={{padding: '15px'}} >
+                <Paper elevation={5} style={{padding: '15px'}}>
                     <TodoList
                         id={t.id}
                         filter={t.filter}
