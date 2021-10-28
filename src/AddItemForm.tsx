@@ -6,19 +6,19 @@ type AddItemFormTypes = {
     addItem:(title:string)=>void
 }
 
-function AddItemForm(props:AddItemFormTypes) {
+export const AddItemForm = React.memo( (props:AddItemFormTypes) => {
 
-    const [error, setError] = useState<boolean>(false)
+    const [error, setError] = useState<string | null>(null)
     const [title, setTitle] = useState<string>("")
 
     const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        if (error) {
-            setError(false)
-        }
         setTitle(e.currentTarget.value)
     }
 
     const onKeyPressAddTask = (e: KeyboardEvent<HTMLInputElement>) => {
+        if(error !== null){
+            setError(null)
+        }
         if (e.key === "Enter") {
             addItem()
         }
@@ -29,7 +29,7 @@ function AddItemForm(props:AddItemFormTypes) {
         if (trimmedTitle) {
             props.addItem(title)
         } else {
-            setError(true)
+            setError('Title is required!')
         }
         setTitle("")
     }
@@ -43,8 +43,7 @@ function AddItemForm(props:AddItemFormTypes) {
                 variant={"outlined"}
                 label={'Enter title'}
                 size={'small'}
-                error={error}
-                helperText={error && 'Title is required!'}
+                helperText={error}
             />
             <IconButton onClick={addItem}>
                 <AddBox color={"primary"}/>
@@ -52,6 +51,4 @@ function AddItemForm(props:AddItemFormTypes) {
             {/*{error && <div style={{color: "red"}}>Title is required!</div>}*/}
         </div>
     )
-}
-
-export default AddItemForm;
+})

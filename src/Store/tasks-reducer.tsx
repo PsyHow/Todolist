@@ -1,5 +1,5 @@
-import {TasksStateType} from '../App';
 import {v1} from 'uuid';
+import { TasksStateType } from '../AppWithRedux';
 import {AddNewTodolistAction, RemoveTodolistAction} from './todolist-reduser';
 
 type RemoveTaskAction = {
@@ -35,7 +35,9 @@ type ActionsType =
     | ChangeTitleStatusAction
     | RemoveTodolistAction;
 
-export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
+const initialState: TasksStateType = {}
+
+export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK':
             return {
@@ -51,7 +53,8 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
             return {...state, [action.todolistId]: []}
         case 'CHANGE-TASK-STATUS':
             return {
-                ...state, [action.todolistId]: state[action.todolistId]
+                ...state,
+                [action.todolistId]: state[action.todolistId]
                     .map(m => m.id === action.taskId ? {...m, isDone: action.isDone} : m)
             }
         case 'CHANGE-TASK-TITLE':
@@ -66,7 +69,7 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
             let {[action.id]: [], ...copyState} = {...state}
             return copyState
         default:
-            throw new Error("I don't understand this type")
+            return state
     }
 }
 
