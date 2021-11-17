@@ -1,5 +1,20 @@
 import axios from "axios";
 
+export enum TaskStatuses {
+    New = 0,
+    InProgress = 1,
+    Completed = 2,
+    Draft = 3,
+}
+
+export enum TaskPriorities {
+    Low = 0,
+    Middle = 1,
+    Hi = 2,
+    Urgently = 3,
+    Later = 4
+}
+
 export type TodoType = {
     id: string
     addedDate: string
@@ -12,12 +27,11 @@ type RootResponseType<T = {}> = {
     messages: Array<string>
     data: T
 }
-type TaskType = {
+export type TaskType = {
     description: string
     title: string
-    completed: boolean
-    status: number
-    priority: number
+    status: TaskStatuses
+    priority: TaskPriorities
     startDate: string
     deadline: string
     id: string
@@ -33,7 +47,6 @@ type TaskResponseType = {
 type UpdateTaskType = {
     title: string
     description?: string
-    completed?: boolean
     status?: number
     priority?: number
     startDate?: string
@@ -62,16 +75,16 @@ export const todolistApi = {
     updateTodoTitle(params: { todolistId: string, title: string }) {
         return instance.put<RootResponseType>(`/todo-lists/${params.todolistId}`, {title: params.title})
     },
-    getTask(todolistId:string){
+    getTask(todolistId: string) {
         return instance.get<TaskResponseType>(`/todo-lists/${todolistId}/tasks`)
     },
-    createTask(todolistId:string,title:string){
-        return instance.post<TaskResponseType>(`/todo-lists/${todolistId}/tasks`,{title})
+    createTask(todolistId: string, title: string) {
+        return instance.post<TaskResponseType>(`/todo-lists/${todolistId}/tasks`, {title})
     },
-    deleteTask(todolistId:string,taskId:string){
+    deleteTask(todolistId: string, taskId: string) {
         return instance.delete<RootResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
     },
-    updateTask(todolistId:string,taskId:string, model:UpdateTaskType){
+    updateTask(todolistId: string, taskId: string, model: UpdateTaskType) {
         return instance.put<TaskResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
     }
 }
