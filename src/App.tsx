@@ -38,7 +38,7 @@ function App() {
     return (
         <div className="App">
             <AppBar position="static">
-                <Toolbar>
+                <Toolbar style={{justifyContent: "space-between"}}>
                     <IconButton edge="start" color="inherit" aria-label="menu">
                         <Menu/>
                     </IconButton>
@@ -49,19 +49,17 @@ function App() {
                 </Toolbar>
             </AppBar>
             <Container fixed>
-                <Grid container style={{padding: '20px'}}>
+                <Grid container style={{padding: '15px', justifyContent: 'center'}}>
                     <AddItemForm addItem={addTodolist}/>
                 </Grid>
-                <Grid container spacing={3}>
+                <Grid container spacing={5} style={{justifyContent: 'center'}}>
                     {
                         todolists.map(tl => {
 
                             return <Grid item key={tl.id}>
                                 <Paper style={{padding: '10px'}}>
                                     <Todolist
-                                        todolistId={tl.id}
-                                        title={tl.title}
-                                        filter={tl.filter}
+                                        todolist={tl}
                                     />
                                 </Paper>
                             </Grid>
