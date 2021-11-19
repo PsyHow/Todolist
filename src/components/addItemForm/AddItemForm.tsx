@@ -8,8 +8,6 @@ type AddItemFormPropsType = {
 }
 
 export const AddItemForm = React.memo(function (props: AddItemFormPropsType) {
-    console.log('AddItemForm called')
-
     let [title, setTitle] = useState('')
     let [error, setError] = useState<string | null>(null)
 
@@ -21,11 +19,9 @@ export const AddItemForm = React.memo(function (props: AddItemFormPropsType) {
             setError('Title is required');
         }
     }
-
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
-
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (error !== null) {
             setError(null);
