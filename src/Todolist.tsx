@@ -23,13 +23,13 @@ type PropsType = {
 }
 
 export const Todolist = React.memo(function (props: PropsType) {
-    const { todolistId, title, filter} = props
-    const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[props.todolistId])
+    const {todolistId, title, filter} = props
+    const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[todolistId])
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(getTaskTC(todolistId))
-    }, [dispatch,todolistId])
+    }, [dispatch, todolistId])
 
     const removeTodolist = useCallback(function () {
         dispatch(removeTodolistTC(todolistId))
@@ -71,10 +71,12 @@ export const Todolist = React.memo(function (props: PropsType) {
         <AddItemForm addItem={addTask}/>
         <div>
             {
-                tasksForTodolist.map(t => <Task key={t.id}
-                                                task={t}
-                                                todolistId={todolistId}
-                />)
+                tasksForTodolist.map(t => {
+                    return <Task key={t.id}
+                                 task={t}
+                                 todolistId={todolistId}
+                    />
+                })
             }
         </div>
         <div style={{paddingTop: '10px'}}>
