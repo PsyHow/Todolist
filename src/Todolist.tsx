@@ -1,13 +1,14 @@
-import React, {useCallback} from 'react'
+import React, {useCallback, useEffect} from 'react'
 import {AddItemForm} from './AddItemForm'
 import {EditableSpan} from './EditableSpan'
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import {Task} from './Task'
-import {Delete} from "@material-ui/icons";
-import {FilterValuesType} from './state/todolists-reducer';
+import {FilterValuesType} from './state/todolists-reducer'
+import {useDispatch} from "react-redux";
+import {getTaskTC} from "./state/tasks-reducer";
 import {TaskStatuses, TaskType} from "./dal/todolist-api";
-
+import { Delete } from '@material-ui/icons';
 
 type PropsType = {
     id: string
@@ -26,6 +27,11 @@ type PropsType = {
 
 export const Todolist = React.memo(function (props: PropsType) {
     console.log('Todolist called')
+    const dispatch = useDispatch()
+
+    useEffect(()=> {
+        dispatch(getTaskTC(props.id))
+    },[])
 
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.id)

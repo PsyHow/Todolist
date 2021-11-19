@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {todolistApi} from "../dal/todolist-api";
+import {todolistAPI} from "../dal/todolist-api";
 
 export default {
     title: 'API'
@@ -18,7 +18,7 @@ export const GetTodolists = () => {
     const [state, setState] = useState<any>(null)
 
     const getTodolist = () => {
-        todolistApi.getTodos()
+        todolistAPI.getTodolists()
             .then(res => setState(res.data))
     }
 
@@ -47,7 +47,7 @@ export const CreateTodolist = () => {
 
     const createTodolist = () => {
         const title = 'Wanted'
-        todolistApi.createTodo(title)
+        todolistAPI.createTodolist(title)
             .then(res => {
                 setState(res.data)
             })
@@ -80,8 +80,7 @@ export const DeleteTodolist = () => {
     const [todolistId, setTodolistId] = useState<string>('')
 
     const deleteTodolist = () => {
-        const todolistId = '8f175436-2173-4a13-a4fc-f544114fdbc7'
-        todolistApi.deleteTodo(todolistId)
+        todolistAPI.deleteTodolist(todolistId)
             .then(res => {
                 setState(res.data)
             })
@@ -116,7 +115,7 @@ export const UpdateTodolistTitle = () => {
     const [title, setTitle] = useState<string>('')
 
     const updateTodolist = () => {
-        todolistApi.updateTodoTitle({todolistId, title})
+        todolistAPI.updateTodolist(todolistId, title)
             .then(res => {
                 setState(res.data)
             })
@@ -148,7 +147,7 @@ export const GetTasks = () => {
     const [todolistId, setTodolistId] = useState<string>('')
 
     const getTask = () => {
-        todolistApi.getTask(todolistId)
+        todolistAPI.getTasks(todolistId)
             .then(res => setState(res.data))
     }
 
@@ -183,7 +182,7 @@ export const CreateTask = () => {
     const [title, setTitle] = useState<string>('')
 
     const createTask = () => {
-        todolistApi.createTask(todolistId, title)
+        todolistAPI.createTask(todolistId, title)
             .then(res => {
                 setState(res.data)
             })
@@ -221,7 +220,7 @@ export const DeleteTask = () => {
     const [taskId, setTaskId] = useState<string>('')
 
     const deleteTask = () => {
-        todolistApi.deleteTask(todolistId, taskId)
+        todolistAPI.deleteTask(todolistId, taskId)
             .then(res => {
                 setState(res.data)
             })
@@ -264,29 +263,29 @@ export const UpdateTask = () => {
     const [taskId, setTaskId] = useState<string>('')
     const [title, setTitle] = useState<string>('')
 
-    const updateTask = () => {
-        todolistApi.updateTask(todolistId, taskId, {title})
-            .then(res => {
-                setState(res.data)
-            })
-    }
+    // const updateTask = () => {
+    //     todolistAPI.updateTask(todolistId, taskId, {model:title})
+    //         .then(res => {
+    //             setState(res.data)
+    //         })
+    // }
 
-    return <div> {JSON.stringify(state)}
-        <div>
-            <input placeholder={'todolistId'}
-                   value={todolistId}
-                   onChange={(e) => {
-                       setTodolistId(e.currentTarget.value)
-                   }}/>
-            <input placeholder={'taskId'}
-                   value={taskId}
-                   onChange={(e) => {
-                       setTaskId(e.currentTarget.value)
-                   }}/>
-            <input placeholder={'title'} value={title}
-                   onChange={(e) => setTitle(e.currentTarget.value)}/>
-            <button onClick={updateTask}>update Task</button>
-        </div>
-    </div>
+    // return <div> {JSON.stringify(state)}
+    //     <div>
+    //         <input placeholder={'todolistId'}
+    //                value={todolistId}
+    //                onChange={(e) => {
+    //                    setTodolistId(e.currentTarget.value)
+    //                }}/>
+    //         <input placeholder={'taskId'}
+    //                value={taskId}
+    //                onChange={(e) => {
+    //                    setTaskId(e.currentTarget.value)
+    //                }}/>
+    //         <input placeholder={'title'} value={title}
+    //                onChange={(e) => setTitle(e.currentTarget.value)}/>
+    //         <button onClick={updateTask}>update Task</button>
+    //     </div>
+    // </div>
 }
 
