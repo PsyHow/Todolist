@@ -1,11 +1,11 @@
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../state/store";
-import {addTodolistTC, getTodolistTC, TodolistDomainType} from "../../state/todolists-reducer";
 import React, {useCallback, useEffect} from "react";
 import Grid from "@mui/material/Grid";
 import {AddItemForm} from "../../components/addItemForm/AddItemForm";
 import Paper from "@mui/material/Paper";
 import {Todolist} from "./Todolist/Todolist";
+import {AppRootStateType} from "../../../bll/store";
+import {addTodolistTC, getTodolistTC, TodolistDomainType} from "../../../bll/todolists-reducer";
 
 export const TodolistList = () => {
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
@@ -14,6 +14,7 @@ export const TodolistList = () => {
     useEffect(() => {
         dispatch(getTodolistTC())
     }, [dispatch])
+
     const addTodolist = useCallback((title: string) => {
         dispatch(addTodolistTC(title))
     }, [dispatch]);
@@ -28,9 +29,7 @@ export const TodolistList = () => {
                     return <Grid item key={tl.id}>
                         <Paper style={{padding: '10px'}}>
                             <Todolist
-                                id={tl.id}
-                                title={tl.title}
-                                filter={tl.filter}
+                                todolist={tl}
                             />
                         </Paper>
                     </Grid>

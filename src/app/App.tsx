@@ -8,7 +8,12 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import {Menu} from "@material-ui/icons";
 import {TaskType} from '../dal/todolist-api';
-import {TodolistList} from "../features/TodolistList/TodolistList";
+import {TodolistList} from "../ui/features/TodolistList/TodolistList";
+import {LinearProgress} from "@material-ui/core";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../bll/store";
+import {RequestStatusType} from "./app-reducer";
+import {ErrorSnackbar} from "../ui/components/errorSnackbar/ErrorSnackbar";
 
 
 export type TasksStateType = {
@@ -17,8 +22,11 @@ export type TasksStateType = {
 
 function App() {
 
+    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
+
     return (
         <div className="App">
+            <ErrorSnackbar/>
             <AppBar position="static">
                 <Toolbar style={{justifyContent: "space-between"}}>
                     <IconButton edge="start" color="inherit" aria-label="menu">
@@ -30,8 +38,9 @@ function App() {
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
+            { status === 'loading' && <LinearProgress/> }
             <Container fixed>
-                <TodolistList/>
+                <TodolistList />
             </Container>
         </div>
     );
