@@ -1,17 +1,17 @@
-import {AppReducerActionType, setAppErrorAC, setAppStatusAC} from "../app/app-reducer";
-import {Dispatch} from "redux";
-import {ResponseType} from "../dal/todolist-api";
+import { setAppErrorAC, setAppStatusAC } from "../app/app-reducer";
+import { Dispatch } from "redux";
+import { ResponseType } from "../dal/todolist-api";
 
-export const handleServerNetworkError = (error: {message: string}, dispatch: Dispatch<AppReducerActionType>) => {
-    dispatch(setAppErrorAC(error.message))
-    dispatch(setAppStatusAC('failed'))
+export const handleServerNetworkError = (error: {message: string}, dispatch: Dispatch) => {
+    dispatch(setAppErrorAC({ error: error.message }))
+    dispatch(setAppStatusAC({ status: 'failed' }))
 }
 
-export const handleServerAppError = <T>(dispatch: Dispatch<AppReducerActionType>,data:ResponseType<T>) => {
-    if (data.messages.length) {
-        dispatch(setAppErrorAC(data.messages[0]))
+export const handleServerAppError = <T>(dispatch: Dispatch, data: ResponseType<T>) => {
+    if(data.messages.length) {
+        dispatch(setAppErrorAC({ error: data.messages[0] }))
     } else {
-        dispatch(setAppErrorAC('Unknown error'))
+        dispatch(setAppErrorAC({ error: 'Unknown error' }))
     }
-    dispatch(setAppStatusAC('failed'))
+    dispatch(setAppStatusAC({ status: 'failed' }))
 }

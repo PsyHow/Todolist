@@ -14,9 +14,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppRootStateType } from "../bll/store";
 import { initializeAppTC, RequestStatusType } from "./app-reducer";
 import { ErrorSnackbar } from "../ui/components/errorSnackbar/ErrorSnackbar";
-import { Navigate, Route, Routes } from "react-router-dom";
 import { Login } from "../ui/features/Login/Login";
 import { logoutTC } from "../ui/features/Login/auth-reducer";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 
 export type TasksStateType = {
@@ -40,7 +40,7 @@ function App() {
         dispatch(initializeAppTC())
     }, [])
 
-    if (!isInitialized) {
+    if(!isInitialized) {
         return <div
             style={ { position: 'fixed', top: '30%', textAlign: 'center', width: '100%' } }>
             <CircularProgress/>

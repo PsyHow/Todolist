@@ -1,7 +1,7 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
-import {AddBox} from "@material-ui/icons";
+import { AddBox } from "@material-ui/icons";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
@@ -13,7 +13,7 @@ export const AddItemForm = React.memo(function (props: AddItemFormPropsType) {
     let [error, setError] = useState<string | null>(null)
 
     const addItem = () => {
-        if (title.trim() !== '') {
+        if(title.trim() !== '') {
             props.addItem(title);
             setTitle('');
         } else {
@@ -24,27 +24,27 @@ export const AddItemForm = React.memo(function (props: AddItemFormPropsType) {
         setTitle(e.currentTarget.value)
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (error !== null) {
+        if(error !== null) {
             setError(null);
         }
-        if (e.charCode === 13) {
+        if(e.charCode === 13) {
             addItem();
         }
     }
 
     return <div>
         <TextField variant="outlined"
-                   error={!!error}
-                   value={title}
-                   onChange={onChangeHandler}
-                   onKeyPress={onKeyPressHandler}
+                   error={ !!error }
+                   value={ title }
+                   onChange={ onChangeHandler }
+                   onKeyPress={ onKeyPressHandler }
                    label="Title"
-                   helperText={error}
-                   disabled={props.disabled}
+                   helperText={ error }
+                   disabled={ props.disabled }
         />
-        <IconButton style={{marginTop: '6px'}}
-                    color="primary" onClick={addItem}
-                    disabled={props.disabled}>
+        <IconButton style={ { marginTop: '6px' } }
+                    color="primary" onClick={ addItem }
+                    disabled={ props.disabled }>
             <AddBox/>
         </IconButton>
     </div>

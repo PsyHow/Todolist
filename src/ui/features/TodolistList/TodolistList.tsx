@@ -16,7 +16,7 @@ export const TodolistList = () => {
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
 
     useEffect(() => {
-        if (!isLoggedIn) {
+        if(!isLoggedIn) {
             return
         }
         dispatch(getTodolistTC())
@@ -26,7 +26,7 @@ export const TodolistList = () => {
         dispatch(addTodolistTC(title))
     }, [dispatch]);
 
-    if (!isLoggedIn) {
+    if(!isLoggedIn) {
         return <Navigate to="/login"/>
     }
 
