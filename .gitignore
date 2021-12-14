@@ -24,3 +24,5 @@ yarn-error.log*
 
 .idea/*
 .src.idea/
+# .env
+.env
