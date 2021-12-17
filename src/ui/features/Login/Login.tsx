@@ -15,8 +15,9 @@ import { Navigate } from 'react-router-dom';
 import { loginTC } from './auth-reducer';
 
 import { AppRootStateType } from 'bll/store';
+import { passLength } from 'constants/constants';
 
-export const Login = () => {
+export const Login: React.FC = () => {
   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector<AppRootStateType, boolean>(
@@ -40,7 +41,7 @@ export const Login = () => {
       if (!values.password) {
         errors.password = 'Required';
       }
-      if (values.password.length < 3) {
+      if (values.password.length < passLength) {
         errors.password = 'To short password';
       }
       return errors;

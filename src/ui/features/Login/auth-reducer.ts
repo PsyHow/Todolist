@@ -3,6 +3,7 @@ import { AxiosError } from 'axios';
 import { Dispatch } from 'redux';
 
 import { setAppStatusAC } from 'app/app-reducer';
+import { okResult } from 'constants/constants';
 import { authAPI, LoginRequestType } from 'dal/todolist-api';
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils';
 
@@ -15,6 +16,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     setIsLoggedInAC(state, action: PayloadAction<{ value: boolean }>) {
+      // eslint-disable-next-line no-param-reassign
       state.isLoggedIn = action.payload.value;
     },
   },
@@ -29,7 +31,7 @@ export const loginTC = (data: LoginRequestType) => (dispatch: Dispatch) => {
   authAPI
     .login(data)
     .then(res => {
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === okResult) {
         dispatch(setAppStatusAC({ status: 'succeeded' }));
         dispatch(setIsLoggedInAC({ value: true }));
       } else {
@@ -46,7 +48,7 @@ export const logoutTC = () => (dispatch: Dispatch) => {
   authAPI
     .logout()
     .then(res => {
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === okResult) {
         dispatch(setIsLoggedInAC({ value: false }));
         dispatch(setAppStatusAC({ status: 'succeeded' }));
       } else {

@@ -3,6 +3,7 @@ import { AxiosError } from 'axios';
 import { Dispatch } from 'redux';
 
 import { RequestStatusType, setAppStatusAC } from 'app/app-reducer';
+import { indexCheck, okResult, spliceElement } from 'constants/constants';
 import { todolistAPI, TodolistType } from 'dal/todolist-api';
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils';
 
@@ -14,8 +15,8 @@ const slice = createSlice({
   reducers: {
     removeTodolistAC(state, action: PayloadAction<{ id: string }>) {
       const index = state.findIndex(tl => tl.id === action.payload.id);
-      if (index > -1) {
-        state.splice(index, 1);
+      if (index > indexCheck) {
+        state.splice(index, spliceElement);
       }
     },
     addTodolistAC(state, action: PayloadAction<{ todolist: TodolistType }>) {
@@ -23,7 +24,8 @@ const slice = createSlice({
     },
     changeTodolistTitleAC(state, action: PayloadAction<{ id: string; title: string }>) {
       const index = state.findIndex(f => f.id === action.payload.id);
-      if (index > -1) {
+      if (index > indexCheck) {
+        // eslint-disable-next-line no-param-reassign
         state[index].title = action.payload.title;
       }
     },
@@ -32,7 +34,8 @@ const slice = createSlice({
       action: PayloadAction<{ id: string; filter: FilterValuesType }>,
     ) {
       const index = state.findIndex(f => f.id === action.payload.id);
-      if (index > -1) {
+      if (index > indexCheck) {
+        // eslint-disable-next-line no-param-reassign
         state[index].filter = action.payload.filter;
       }
     },
@@ -48,7 +51,8 @@ const slice = createSlice({
       action: PayloadAction<{ id: string; entityStatus: RequestStatusType }>,
     ) {
       const index = state.findIndex(f => f.id === action.payload.id);
-      if (index > -1) {
+      if (index > indexCheck) {
+        // eslint-disable-next-line no-param-reassign
         state[index].entityStatus = action.payload.entityStatus;
       }
     },
@@ -86,7 +90,7 @@ export const removeTodolistTC = (todolistID: string) => (dispatch: Dispatch) => 
   todolistAPI
     .deleteTodolist(todolistID)
     .then(res => {
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === okResult) {
         dispatch(setAppStatusAC({ status: 'succeeded' }));
         dispatch(removeTodolistAC({ id: todolistID }));
       } else {
@@ -103,7 +107,7 @@ export const changeTodolistTitleTC =
     dispatch(setAppStatusAC({ status: 'loading' }));
     todolistAPI
       .updateTodolist(todolistId, title)
-      .then(res => {
+      .then(() => {
         dispatch(setAppStatusAC({ status: 'succeeded' }));
         dispatch(changeTodolistTitleAC({ id: todolistId, title }));
       })
@@ -117,7 +121,7 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
   todolistAPI
     .createTodolist(title)
     .then(res => {
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === okResult) {
         dispatch(setAppStatusAC({ status: 'succeeded' }));
         dispatch(addTodolistAC({ todolist: res.data.data.item }));
       } else {

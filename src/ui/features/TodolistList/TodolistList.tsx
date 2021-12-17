@@ -11,7 +11,7 @@ import { AppRootStateType } from 'bll/store';
 import { addTodolistTC, getTodolistTC, TodolistDomainType } from 'bll/todolists-reducer';
 import { AddItemForm } from 'ui/components/addItemForm/AddItemForm';
 
-export const TodolistList = () => {
+export const TodolistList: React.FC = () => {
   const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(
     state => state.todolists,
   );

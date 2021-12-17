@@ -55,12 +55,12 @@
       "error"
     ],
     "@typescript-eslint/explicit-function-return-type": [
-      "off",
+      "error",
       {
         "allowExpressions": true
       }
     ],
-    "prettier/prettier": "error",
+    "prettier/prettier": ["error", { "endOfLine": "auto"}, { "usePrettierrc": true }],
     "react/prop-types": 0,
     "react/display-name": "off",
     "react/react-in-jsx-scope": "off",

@@ -8,10 +8,11 @@ import { setAppErrorAC } from 'app/app-reducer';
 import { AppRootStateType } from 'bll/store';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => (
+  // eslint-disable-next-line react/jsx-props-no-spreading
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 ));
 
-export const ErrorSnackbar = () => {
+export const ErrorSnackbar: React.FC = () => {
   const error = useSelector<AppRootStateType, null | string>(state => state.app.error);
   const dispatch = useDispatch();
 
@@ -23,7 +24,7 @@ export const ErrorSnackbar = () => {
   };
 
   return (
-    <Snackbar open={error !== null} autoHideDuration={6000} onClose={handleClose}>
+    <Snackbar open={error !== null} autoHideDuration={6000} onClose={()=>handleClose()}>
       <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
         {error}
       </Alert>

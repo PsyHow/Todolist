@@ -25,7 +25,7 @@ export type TasksStateType = {
   [key: string]: Array<TaskType>;
 };
 
-const App = () => {
+const App: React.FC = () => {
   const status = useSelector<AppRootStateType, RequestStatusType>(
     state => state.app.status,
   );
@@ -37,7 +37,7 @@ const App = () => {
   );
   const dispatch = useDispatch();
 
-  const logoutHandler = () => {
+  const logoutHandler = (): void => {
     dispatch(logoutTC());
   };
 

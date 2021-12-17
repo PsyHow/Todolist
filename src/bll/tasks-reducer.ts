@@ -7,6 +7,7 @@ import { addTodolistAC, getTodolistAC, removeTodolistAC } from './todolists-redu
 
 import { TasksStateType } from 'app/App';
 import { setAppStatusAC } from 'app/app-reducer';
+import { indexCheck, okResult, spliceElement } from 'constants/constants';
 import {
   TaskStatuses,
   TaskType,
@@ -24,8 +25,8 @@ const slice = createSlice({
     removeTaskAC(state, action: PayloadAction<{ taskId: string; todolistId: string }>) {
       const tasks = state[action.payload.todolistId];
       const index = tasks.findIndex(t => t.id === action.payload.taskId);
-      if (index > -1) {
-        tasks.splice(index, 1);
+      if (index > indexCheck) {
+        tasks.splice(index, spliceElement);
       }
     },
     addTaskAC(state, action: PayloadAction<{ task: TaskType }>) {
@@ -41,24 +42,28 @@ const slice = createSlice({
     ) {
       const tasks = state[action.payload.todolistId];
       const index = tasks.findIndex(t => t.id === action.payload.taskId);
-      if (index > -1) {
+      if (index > indexCheck) {
         tasks[index] = { ...tasks[index], ...action.payload.model };
       }
     },
     setTaskAC(state, action: PayloadAction<{ todolistID: string; tasks: TaskType[] }>) {
+      // eslint-disable-next-line no-param-reassign
       state[action.payload.todolistID] = action.payload.tasks;
     },
   },
   extraReducers: builder => {
     builder.addCase(addTodolistAC, (state, action) => {
+      // eslint-disable-next-line no-param-reassign
       state[action.payload.todolist.id] = [];
     });
     builder.addCase(getTodolistAC, (state, action) => {
       action.payload.todolist.forEach((tl: any) => {
+        // eslint-disable-next-line no-param-reassign
         state[tl.id] = [];
       });
     });
     builder.addCase(removeTodolistAC, (state, action) => {
+      // eslint-disable-next-line no-param-reassign
       delete state[action.payload.id];
     });
   },
@@ -103,7 +108,7 @@ export const createTaskTC =
     todolistAPI
       .createTask(todolistId, title)
       .then(res => {
-        if (res.data.resultCode === 0) {
+        if (res.data.resultCode === okResult) {
           dispatch(setAppStatusAC({ status: 'succeeded' }));
           dispatch(addTaskAC({ task: res.data.data.item }));
         } else {
@@ -136,7 +141,7 @@ export const updateTaskTC =
     todolistAPI
       .updateTask(todolistId, taskId, apiModel)
       .then(res => {
-        if (res.data.resultCode === 0) {
+        if (res.data.resultCode === okResult) {
           dispatch(setAppStatusAC({ status: 'succeeded' }));
           dispatch(updateTaskAC({ taskId, model, todolistId }));
         } else {
