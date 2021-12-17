@@ -2,10 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { Dispatch } from 'redux';
 
-import { setAppStatusAC } from 'app/app-reducer';
+import { setAppStatusAC } from 'bll';
 import { okResult } from 'constants/constants';
-import { authAPI, LoginRequestType } from 'dal/todolist-api';
-import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils';
+import { authAPI, LoginRequestType } from 'dal';
+import { handleServerAppError, handleServerNetworkError } from 'utils';
 
 const initialState = {
   isLoggedIn: false,

@@ -5,20 +5,18 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Task } from './Tasks/Task';
-
-import { AppRootStateType } from 'bll/store';
-import { createTaskTC, getTaskTC } from 'bll/tasks-reducer';
 import {
+  AppRootStateType,
+  createTaskTC,
+  getTaskTC,
   changeTodolistFilterAC,
   changeTodolistTitleTC,
   FilterValuesType,
   removeTodolistTC,
   TodolistDomainType,
-} from 'bll/todolists-reducer';
-import { TaskStatuses, TaskType } from 'dal/todolist-api';
-import { AddItemForm } from 'ui/components/addItemForm/AddItemForm';
-import { EditableSpan } from 'ui/components/editableSpan/EditableSpan';
+} from 'bll';
+import { TaskStatuses, TaskType } from 'dal';
+import { Task, AddItemForm, EditableSpan } from 'ui';
 
 type PropsType = {
   todolist: TodolistDomainType;

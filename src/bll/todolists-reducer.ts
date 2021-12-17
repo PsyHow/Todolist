@@ -2,10 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { Dispatch } from 'redux';
 
-import { RequestStatusType, setAppStatusAC } from 'app/app-reducer';
+import { RequestStatusType, setAppStatusAC } from 'bll';
 import { indexCheck, okResult, spliceElement } from 'constants/constants';
-import { todolistAPI, TodolistType } from 'dal/todolist-api';
-import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils';
+import { todolistAPI, TodolistType } from 'dal';
+import { handleServerAppError, handleServerNetworkError } from 'utils';
 
 const initialState: Array<TodolistDomainType> = [];
 

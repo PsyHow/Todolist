@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Dispatch } from 'redux';
 
+import { setIsLoggedInAC } from 'bll';
 import { okResult } from 'constants/constants';
-import { authAPI } from 'dal/todolist-api';
-import { setIsLoggedInAC } from 'ui/features/Login/auth-reducer';
+import { authAPI } from 'dal';
 
 const initialState = {
   status: 'idle' as RequestStatusType,
@@ -16,12 +16,15 @@ const slice = createSlice({
   initialState,
   reducers: {
     setAppStatusAC(state, action: PayloadAction<{ status: RequestStatusType }>) {
+      // eslint-disable-next-line no-param-reassign
       state.status = action.payload.status;
     },
     setAppErrorAC(state, action: PayloadAction<{ error: null | string }>) {
+      // eslint-disable-next-line no-param-reassign
       state.error = action.payload.error;
     },
     setIsInitializedAC(state, action: PayloadAction<{ isInitialized: boolean }>) {
+      // eslint-disable-next-line no-param-reassign
       state.isInitialized = action.payload.isInitialized;
     },
   },

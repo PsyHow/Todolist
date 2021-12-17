@@ -12,14 +12,9 @@ import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { initializeAppTC, RequestStatusType } from './app-reducer';
-
-import { AppRootStateType } from 'bll/store';
-import { TaskType } from 'dal/todolist-api';
-import { ErrorSnackbar } from 'ui/components/errorSnackbar/ErrorSnackbar';
-import { logoutTC } from 'ui/features/Login/auth-reducer';
-import { Login } from 'ui/features/Login/Login';
-import { TodolistList } from 'ui/features/TodolistList/TodolistList';
+import { initializeAppTC, RequestStatusType, AppRootStateType, logoutTC } from 'bll';
+import { TaskType } from 'dal';
+import { ErrorSnackbar, Login, TodolistList } from 'ui';
 
 export type TasksStateType = {
   [key: string]: Array<TaskType>;

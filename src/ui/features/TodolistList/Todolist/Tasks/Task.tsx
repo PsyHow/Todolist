@@ -5,10 +5,9 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import { useDispatch } from 'react-redux';
 
-import { RequestStatusType } from 'app/app-reducer';
-import { deleteTaskTC, updateTaskTC } from 'bll/tasks-reducer';
-import { TaskStatuses, TaskType } from 'dal/todolist-api';
-import { EditableSpan } from 'ui/components/editableSpan/EditableSpan';
+import { RequestStatusType, deleteTaskTC, updateTaskTC } from 'bll';
+import { TaskStatuses, TaskType } from 'dal';
+import { EditableSpan } from 'ui';
 
 type TaskPropsType = {
   task: TaskType;

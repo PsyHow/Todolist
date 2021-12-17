@@ -5,8 +5,8 @@ import thunk from 'redux-thunk';
 import { tasksReducer } from './tasks-reducer';
 import { todolistsReducer } from './todolists-reducer';
 
-import { appReducer } from 'app/app-reducer';
-import { authReducer } from 'ui/features/Login/auth-reducer';
+import { appReducer } from 'bll/app-reducer';
+import { authReducer } from 'bll/auth-reducer';
 
 const rootReducer = combineReducers({
   tasks: tasksReducer,

@@ -12,9 +12,7 @@ import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-import { loginTC } from './auth-reducer';
-
-import { AppRootStateType } from 'bll/store';
+import { loginTC, AppRootStateType } from 'bll';
 import { passLength } from 'constants/constants';
 
 export const Login: React.FC = () => {
@@ -81,6 +79,7 @@ export const Login: React.FC = () => {
               <TextField
                 label="Email"
                 margin="normal"
+                // eslint-disable-next-line react/jsx-props-no-spreading
                 {...formik.getFieldProps('email')}
               />
               {formik.touched.email && formik.errors.email ? (
@@ -90,6 +89,7 @@ export const Login: React.FC = () => {
                 type="password"
                 label="Password"
                 margin="normal"
+                // eslint-disable-next-line react/jsx-props-no-spreading
                 {...formik.getFieldProps('password')}
               />
               {formik.touched.password && formik.errors.password ? (
@@ -97,6 +97,7 @@ export const Login: React.FC = () => {
               ) : null}
               <FormControlLabel
                 label="Remember me"
+                // eslint-disable-next-line react/jsx-props-no-spreading
                 control={<Checkbox {...formik.getFieldProps('rememberMe')} />}
               />
               <Button type="submit" variant="contained" color="primary">

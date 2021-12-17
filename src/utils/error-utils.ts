@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 
-import { setAppErrorAC, setAppStatusAC } from 'app/app-reducer';
-import { ResponseType } from 'dal/todolist-api';
+import { setAppErrorAC, setAppStatusAC } from 'bll';
+import { ResponseType } from 'dal';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const handleServerNetworkError = (

@@ -5,11 +5,8 @@ import Paper from '@mui/material/Paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-import { Todolist } from './Todolist/Todolist';
-
-import { AppRootStateType } from 'bll/store';
-import { addTodolistTC, getTodolistTC, TodolistDomainType } from 'bll/todolists-reducer';
-import { AddItemForm } from 'ui/components/addItemForm/AddItemForm';
+import { AppRootStateType, addTodolistTC, getTodolistTC, TodolistDomainType } from 'bll';
+import { Todolist, AddItemForm } from 'ui';
 
 export const TodolistList: React.FC = () => {
   const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(

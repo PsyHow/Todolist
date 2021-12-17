@@ -5,16 +5,11 @@ import { Dispatch } from 'redux';
 import { AppRootStateType } from './store';
 import { addTodolistAC, getTodolistAC, removeTodolistAC } from './todolists-reducer';
 
-import { TasksStateType } from 'app/App';
-import { setAppStatusAC } from 'app/app-reducer';
+import { TasksStateType } from 'App';
+import { setAppStatusAC } from 'bll';
 import { indexCheck, okResult, spliceElement } from 'constants/constants';
-import {
-  TaskStatuses,
-  TaskType,
-  todolistAPI,
-  UpdateTaskModelType,
-} from 'dal/todolist-api';
-import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils';
+import { TaskStatuses, TaskType, todolistAPI, UpdateTaskModelType } from 'dal';
+import { handleServerAppError, handleServerNetworkError } from 'utils';
 
 const initialState: TasksStateType = {};
 
