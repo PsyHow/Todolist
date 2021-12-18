@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 
 import './App.css';
 import { CircularProgress, LinearProgress } from '@material-ui/core';
@@ -14,31 +14,31 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { initializeAppTC, RequestStatusType, AppRootStateType, logoutTC } from 'bll';
 import { TaskType } from 'dal';
+import { getIsLoggedIn } from 'selectors';
 import { ErrorSnackbar, Login, TodolistList } from 'ui';
 
 export type TasksStateType = {
   [key: string]: Array<TaskType>;
 };
 
-const App: React.FC = () => {
+const App: FC = () => {
+  const dispatch = useDispatch();
+
   const status = useSelector<AppRootStateType, RequestStatusType>(
     state => state.app.status,
   );
   const isInitialized = useSelector<AppRootStateType, boolean>(
     state => state.app.isInitialized,
   );
-  const isLoggedIn = useSelector<AppRootStateType, boolean>(
-    state => state.auth.isLoggedIn,
-  );
-  const dispatch = useDispatch();
-
-  const logoutHandler = (): void => {
-    dispatch(logoutTC());
-  };
+  const isLoggedIn = useSelector<AppRootStateType, boolean>(getIsLoggedIn);
 
   useEffect(() => {
     dispatch(initializeAppTC());
   }, []);
+
+  const logoutHandle = (): void => {
+    dispatch(logoutTC());
+  };
 
   if (!isInitialized) {
     return (
@@ -65,7 +65,7 @@ const App: React.FC = () => {
           </IconButton>
           <Typography variant="h6">News</Typography>
           {isLoggedIn && (
-            <Button onClick={logoutHandler} color="inherit">
+            <Button onClick={logoutHandle} color="inherit">
               Logout
             </Button>
           )}

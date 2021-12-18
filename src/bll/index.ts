@@ -1,6 +1,5 @@
-export type { RequestStatusType } from './app-reducer';
+export type { RequestStatusType, TodolistDomainType, FilterValuesType } from './types';
 export type { AppRootStateType } from './store';
-export type { TodolistDomainType, FilterValuesType } from './todolists-reducer';
 export { store } from './store';
 export { initializeAppTC, setAppErrorAC, setAppStatusAC } from './app-reducer';
 export { logoutTC, loginTC, setIsLoggedInAC } from './auth-reducer';

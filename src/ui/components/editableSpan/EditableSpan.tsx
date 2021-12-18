@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FC, memo, useState } from 'react';
 
 import TextField from '@mui/material/TextField';
 
@@ -8,7 +8,7 @@ type EditableSpanPropsType = {
   disabled: boolean;
 };
 
-export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
+export const EditableSpan: FC<EditableSpanPropsType> = memo(props => {
   const [editMode, setEditMode] = useState(false);
   const [title, setTitle] = useState(props.value);
 

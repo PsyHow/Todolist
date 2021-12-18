@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback } from 'react';
+import { ChangeEvent, FC, memo, useCallback } from 'react';
 
 import { Delete } from '@material-ui/icons';
 import Checkbox from '@mui/material/Checkbox';
@@ -6,7 +6,8 @@ import IconButton from '@mui/material/IconButton';
 import { useDispatch } from 'react-redux';
 
 import { RequestStatusType, deleteTaskTC, updateTaskTC } from 'bll';
-import { TaskStatuses, TaskType } from 'dal';
+import { TaskType } from 'dal';
+import { TaskStatuses } from 'enums';
 import { EditableSpan } from 'ui';
 
 type TaskPropsType = {
@@ -14,25 +15,21 @@ type TaskPropsType = {
   todolistId: string;
   entityStatus: RequestStatusType;
 };
-export const Task = React.memo((props: TaskPropsType) => {
+export const Task: FC<TaskPropsType> = memo(({ task, todolistId, entityStatus }) => {
   const dispatch = useDispatch();
-  const { task, todolistId, entityStatus } = props;
 
-  const removeTask = useCallback(() => {
+  const removeTask = (): void => {
     dispatch(deleteTaskTC(todolistId, task.id));
-  }, [dispatch, todolistId, task.id]);
+  };
 
-  const changeStatus = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const newIsDoneValue = e.currentTarget.checked;
-      dispatch(
-        updateTaskTC(todolistId, task.id, {
-          status: newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New,
-        }),
-      );
-    },
-    [dispatch, todolistId, task.id],
-  );
+  const changeStatus = (e: ChangeEvent<HTMLInputElement>): void => {
+    const newIsDoneValue = e.currentTarget.checked;
+    dispatch(
+      updateTaskTC(todolistId, task.id, {
+        status: newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New,
+      }),
+    );
+  };
 
   const changeTaskTitle = useCallback(
     (newTitle: string) => {

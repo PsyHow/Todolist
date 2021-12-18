@@ -1,8 +1,10 @@
+export { apiConfig } from './api_config';
+export { authAPI } from './auth_api';
+export type { LoginRequestType } from './auth_api';
 export type {
+  ResponseType,
   TaskType,
-  LoginRequestType,
   UpdateTaskModelType,
   TodolistType,
-  ResponseType,
-} from './todolist-api';
-export { TaskStatuses, authAPI, todolistAPI } from './todolist-api';
+} from './todolist_api';
+export { todolistAPI } from './todolist_api';

@@ -1,13 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Dispatch } from 'redux';
 
-import { setIsLoggedInAC } from 'bll';
-import { okResult } from 'constants/constants';
+import { OK_RESULT } from '../constants';
+
+import { RequestStatusType, setIsLoggedInAC } from 'bll';
 import { authAPI } from 'dal';
+import { Nullable } from 'types';
 
 const initialState = {
   status: 'idle' as RequestStatusType,
-  error: null as string | null,
+  error: null as Nullable<string>,
   isInitialized: false,
 };
 
@@ -19,7 +21,7 @@ const slice = createSlice({
       // eslint-disable-next-line no-param-reassign
       state.status = action.payload.status;
     },
-    setAppErrorAC(state, action: PayloadAction<{ error: null | string }>) {
+    setAppErrorAC(state, action: PayloadAction<{ error: Nullable<string> }>) {
       // eslint-disable-next-line no-param-reassign
       state.error = action.payload.error;
     },
@@ -39,7 +41,7 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
   authAPI
     .me()
     .then(res => {
-      if (res.data.resultCode === okResult) {
+      if (res.data.resultCode === OK_RESULT) {
         dispatch(setAppStatusAC({ status: 'succeeded' }));
         dispatch(setIsLoggedInAC({ value: true }));
       }
@@ -49,6 +51,3 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
       dispatch(setIsInitializedAC({ isInitialized: true }));
     });
 };
-
-// types
-export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';

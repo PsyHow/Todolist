@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -12,15 +12,15 @@ import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-import { loginTC, AppRootStateType } from 'bll';
-import { passLength } from 'constants/constants';
+import { PASS_LENGTH } from '../../../constants';
 
-export const Login: React.FC = () => {
+import { loginTC, AppRootStateType } from 'bll';
+import { getIsLoggedIn } from 'selectors';
+
+export const Login: FC = () => {
   const dispatch = useDispatch();
 
-  const isLoggedIn = useSelector<AppRootStateType, boolean>(
-    state => state.auth.isLoggedIn,
-  );
+  const isLoggedIn = useSelector<AppRootStateType, boolean>(getIsLoggedIn);
 
   const formik = useFormik({
     initialValues: {
@@ -39,7 +39,7 @@ export const Login: React.FC = () => {
       if (!values.password) {
         errors.password = 'Required';
       }
-      if (values.password.length < passLength) {
+      if (values.password.length < PASS_LENGTH) {
         errors.password = 'To short password';
       }
       return errors;

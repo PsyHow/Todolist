@@ -2,13 +2,15 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { Dispatch } from 'redux';
 
+import { INDEX_CHECK, OK_RESULT, SPLICE_ELEMENT } from '../constants';
+
 import { AppRootStateType } from './store';
 import { addTodolistAC, getTodolistAC, removeTodolistAC } from './todolists-reducer';
 
 import { TasksStateType } from 'App';
 import { setAppStatusAC } from 'bll';
-import { indexCheck, okResult, spliceElement } from 'constants/constants';
-import { TaskStatuses, TaskType, todolistAPI, UpdateTaskModelType } from 'dal';
+import { TaskType, todolistAPI, UpdateTaskModelType } from 'dal';
+import { TaskStatuses } from 'enums';
 import { handleServerAppError, handleServerNetworkError } from 'utils';
 
 const initialState: TasksStateType = {};
@@ -20,8 +22,8 @@ const slice = createSlice({
     removeTaskAC(state, action: PayloadAction<{ taskId: string; todolistId: string }>) {
       const tasks = state[action.payload.todolistId];
       const index = tasks.findIndex(t => t.id === action.payload.taskId);
-      if (index > indexCheck) {
-        tasks.splice(index, spliceElement);
+      if (index > INDEX_CHECK) {
+        tasks.splice(index, SPLICE_ELEMENT);
       }
     },
     addTaskAC(state, action: PayloadAction<{ task: TaskType }>) {
@@ -37,7 +39,7 @@ const slice = createSlice({
     ) {
       const tasks = state[action.payload.todolistId];
       const index = tasks.findIndex(t => t.id === action.payload.taskId);
-      if (index > indexCheck) {
+      if (index > INDEX_CHECK) {
         tasks[index] = { ...tasks[index], ...action.payload.model };
       }
     },
@@ -103,7 +105,7 @@ export const createTaskTC =
     todolistAPI
       .createTask(todolistId, title)
       .then(res => {
-        if (res.data.resultCode === okResult) {
+        if (res.data.resultCode === OK_RESULT) {
           dispatch(setAppStatusAC({ status: 'succeeded' }));
           dispatch(addTaskAC({ task: res.data.data.item }));
         } else {
@@ -136,7 +138,7 @@ export const updateTaskTC =
     todolistAPI
       .updateTask(todolistId, taskId, apiModel)
       .then(res => {
-        if (res.data.resultCode === okResult) {
+        if (res.data.resultCode === OK_RESULT) {
           dispatch(setAppStatusAC({ status: 'succeeded' }));
           dispatch(updateTaskAC({ taskId, model, todolistId }));
         } else {

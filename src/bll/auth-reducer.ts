@@ -2,9 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { Dispatch } from 'redux';
 
+import { OK_RESULT } from '../constants';
+
 import { setAppStatusAC } from 'bll';
-import { okResult } from 'constants/constants';
-import { authAPI, LoginRequestType } from 'dal';
+import { LoginRequestType, authAPI } from 'dal';
 import { handleServerAppError, handleServerNetworkError } from 'utils';
 
 const initialState = {
@@ -31,7 +32,7 @@ export const loginTC = (data: LoginRequestType) => (dispatch: Dispatch) => {
   authAPI
     .login(data)
     .then(res => {
-      if (res.data.resultCode === okResult) {
+      if (res.data.resultCode === OK_RESULT) {
         dispatch(setAppStatusAC({ status: 'succeeded' }));
         dispatch(setIsLoggedInAC({ value: true }));
       } else {
@@ -48,7 +49,7 @@ export const logoutTC = () => (dispatch: Dispatch) => {
   authAPI
     .logout()
     .then(res => {
-      if (res.data.resultCode === okResult) {
+      if (res.data.resultCode === OK_RESULT) {
         dispatch(setIsLoggedInAC({ value: false }));
         dispatch(setAppStatusAC({ status: 'succeeded' }));
       } else {

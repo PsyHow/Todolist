@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import { FC, useCallback, useEffect } from 'react';
 
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -6,16 +6,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
 import { AppRootStateType, addTodolistTC, getTodolistTC, TodolistDomainType } from 'bll';
+import { getIsLoggedIn } from 'selectors';
 import { Todolist, AddItemForm } from 'ui';
 
-export const TodolistList: React.FC = () => {
+export const TodolistList: FC = () => {
+  const dispatch = useDispatch();
+
   const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(
     state => state.todolists,
   );
-  const dispatch = useDispatch();
-  const isLoggedIn = useSelector<AppRootStateType, boolean>(
-    state => state.auth.isLoggedIn,
-  );
+  const isLoggedIn = useSelector<AppRootStateType, boolean>(getIsLoggedIn);
 
   useEffect(() => {
     if (!isLoggedIn) {

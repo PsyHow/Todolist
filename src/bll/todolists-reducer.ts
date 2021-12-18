@@ -2,8 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { Dispatch } from 'redux';
 
-import { RequestStatusType, setAppStatusAC } from 'bll';
-import { indexCheck, okResult, spliceElement } from 'constants/constants';
+import { INDEX_CHECK, OK_RESULT, SPLICE_ELEMENT } from '../constants';
+
+import {
+  FilterValuesType,
+  RequestStatusType,
+  setAppStatusAC,
+  TodolistDomainType,
+} from 'bll';
 import { todolistAPI, TodolistType } from 'dal';
 import { handleServerAppError, handleServerNetworkError } from 'utils';
 
@@ -15,8 +21,8 @@ const slice = createSlice({
   reducers: {
     removeTodolistAC(state, action: PayloadAction<{ id: string }>) {
       const index = state.findIndex(tl => tl.id === action.payload.id);
-      if (index > indexCheck) {
-        state.splice(index, spliceElement);
+      if (index > INDEX_CHECK) {
+        state.splice(index, SPLICE_ELEMENT);
       }
     },
     addTodolistAC(state, action: PayloadAction<{ todolist: TodolistType }>) {
@@ -24,7 +30,7 @@ const slice = createSlice({
     },
     changeTodolistTitleAC(state, action: PayloadAction<{ id: string; title: string }>) {
       const index = state.findIndex(f => f.id === action.payload.id);
-      if (index > indexCheck) {
+      if (index > INDEX_CHECK) {
         // eslint-disable-next-line no-param-reassign
         state[index].title = action.payload.title;
       }
@@ -34,7 +40,7 @@ const slice = createSlice({
       action: PayloadAction<{ id: string; filter: FilterValuesType }>,
     ) {
       const index = state.findIndex(f => f.id === action.payload.id);
-      if (index > indexCheck) {
+      if (index > INDEX_CHECK) {
         // eslint-disable-next-line no-param-reassign
         state[index].filter = action.payload.filter;
       }
@@ -51,7 +57,7 @@ const slice = createSlice({
       action: PayloadAction<{ id: string; entityStatus: RequestStatusType }>,
     ) {
       const index = state.findIndex(f => f.id === action.payload.id);
-      if (index > indexCheck) {
+      if (index > INDEX_CHECK) {
         // eslint-disable-next-line no-param-reassign
         state[index].entityStatus = action.payload.entityStatus;
       }
@@ -90,7 +96,7 @@ export const removeTodolistTC = (todolistID: string) => (dispatch: Dispatch) => 
   todolistAPI
     .deleteTodolist(todolistID)
     .then(res => {
-      if (res.data.resultCode === okResult) {
+      if (res.data.resultCode === OK_RESULT) {
         dispatch(setAppStatusAC({ status: 'succeeded' }));
         dispatch(removeTodolistAC({ id: todolistID }));
       } else {
@@ -121,7 +127,7 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
   todolistAPI
     .createTodolist(title)
     .then(res => {
-      if (res.data.resultCode === okResult) {
+      if (res.data.resultCode === OK_RESULT) {
         dispatch(setAppStatusAC({ status: 'succeeded' }));
         dispatch(addTodolistAC({ todolist: res.data.data.item }));
       } else {
@@ -134,8 +140,3 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
 };
 
 // types
-export type FilterValuesType = 'all' | 'active' | 'completed';
-export type TodolistDomainType = TodolistType & {
-  filter: FilterValuesType;
-  entityStatus: RequestStatusType;
-};
