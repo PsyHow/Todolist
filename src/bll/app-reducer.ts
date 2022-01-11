@@ -34,6 +34,14 @@ const slice = createSlice({
 
 export const { setAppStatusAC, setAppErrorAC, setIsInitializedAC } = slice.actions;
 export const appReducer = slice.reducer;
+export type InitialStateType = {
+  // происходит ли сейчас взаимодействие с сервером
+  status: RequestStatusType;
+  // если ошибка какая-то глобальная произойдёт - мы запишем текст ошибки сюда
+  error: string | null;
+  // true когда приложение проинициализировалось (проверили юзера, настройки получили и т.д.)
+  isInitialized: boolean;
+};
 
 // thunk
 export const initializeAppTC = () => (dispatch: Dispatch) => {

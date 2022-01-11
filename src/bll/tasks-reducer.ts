@@ -5,7 +5,7 @@ import { Dispatch } from 'redux';
 import { INDEX_CHECK, OK_RESULT, SPLICE_ELEMENT } from '../constants';
 
 import { AppRootStateType } from './store';
-import { addTodolistAC, getTodolistAC, removeTodolistAC } from './todolists-reducer';
+import { addTodolistAC, setTodolistsAC, removeTodolistAC } from './todolists-reducer';
 
 import { TasksStateType } from 'App';
 import { setAppStatusAC } from 'bll';
@@ -50,25 +50,22 @@ const slice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(addTodolistAC, (state, action) => {
-      // eslint-disable-next-line no-param-reassign
       state[action.payload.todolist.id] = [];
     });
-    builder.addCase(getTodolistAC, (state, action) => {
-      action.payload.todolist.forEach((tl: any) => {
-        // eslint-disable-next-line no-param-reassign
+    builder.addCase(removeTodolistAC, (state, action) => {
+      delete state[action.payload.id];
+    });
+    builder.addCase(setTodolistsAC, (state, action) => {
+      action.payload.todolists.forEach((tl: any) => {
         state[tl.id] = [];
       });
-    });
-    builder.addCase(removeTodolistAC, (state, action) => {
-      // eslint-disable-next-line no-param-reassign
-      delete state[action.payload.id];
     });
   },
 });
 
-export const { removeTaskAC, addTaskAC, updateTaskAC, setTaskAC } = slice.actions;
-
 export const tasksReducer = slice.reducer;
+
+export const { removeTaskAC, addTaskAC, updateTaskAC, setTaskAC } = slice.actions;
 
 // thunk
 export const getTaskTC = (todolistId: string) => (dispatch: Dispatch) => {

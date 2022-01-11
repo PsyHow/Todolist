@@ -45,8 +45,8 @@ const slice = createSlice({
         state[index].filter = action.payload.filter;
       }
     },
-    getTodolistAC(state, action: PayloadAction<{ todolist: TodolistType[] }>) {
-      return action.payload.todolist.map(tl => ({
+    setTodolistsAC(state, action: PayloadAction<{ todolists: Array<TodolistType> }>) {
+      return action.payload.todolists.map(tl => ({
         ...tl,
         filter: 'all',
         entityStatus: 'idle',
@@ -67,7 +67,7 @@ const slice = createSlice({
 
 export const {
   changeTodolistEntityStatusAC,
-  getTodolistAC,
+  setTodolistsAC,
   changeTodolistFilterAC,
   changeTodolistTitleAC,
   addTodolistAC,
@@ -83,7 +83,7 @@ export const getTodolistTC = () => (dispatch: Dispatch) => {
     .getTodolists()
     .then(res => {
       dispatch(setAppStatusAC({ status: 'succeeded' }));
-      dispatch(getTodolistAC({ todolist: res.data }));
+      dispatch(setTodolistsAC({ todolists: res.data }));
     })
     .catch((err: AxiosError) => {
       handleServerNetworkError(err, dispatch);
@@ -138,5 +138,3 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
       handleServerNetworkError(err, dispatch);
     });
 };
-
-// types
