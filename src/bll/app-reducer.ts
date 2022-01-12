@@ -1,5 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Dispatch } from 'redux';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { OK_RESULT } from '../constants';
 
@@ -7,15 +6,24 @@ import { RequestStatusType, setIsLoggedInAC } from 'bll';
 import { authAPI } from 'dal';
 import { Nullable } from 'types';
 
-const initialState = {
-  status: 'idle' as RequestStatusType,
-  error: null as Nullable<string>,
-  isInitialized: false,
-};
+// thunks
+export const initializeAppTC = createAsyncThunk(
+  'app/initializeApp',
+  async (param, { dispatch }) => {
+    const res = await authAPI.me();
+    if (res.data.resultCode === OK_RESULT) {
+      dispatch(setIsLoggedInAC({ value: true }));
+    }
+  },
+);
 
 const slice = createSlice({
   name: 'app',
-  initialState,
+  initialState: {
+    status: 'idle' as RequestStatusType,
+    error: null as Nullable<string>,
+    isInitialized: false,
+  } as InitialStateType,
   reducers: {
     setAppStatusAC(state, action: PayloadAction<{ status: RequestStatusType }>) {
       // eslint-disable-next-line no-param-reassign
@@ -25,37 +33,19 @@ const slice = createSlice({
       // eslint-disable-next-line no-param-reassign
       state.error = action.payload.error;
     },
-    setIsInitializedAC(state, action: PayloadAction<{ isInitialized: boolean }>) {
+  },
+  extraReducers: builder => {
+    builder.addCase(initializeAppTC.fulfilled, state => {
       // eslint-disable-next-line no-param-reassign
-      state.isInitialized = action.payload.isInitialized;
-    },
+      state.isInitialized = true;
+    });
   },
 });
 
-export const { setAppStatusAC, setAppErrorAC, setIsInitializedAC } = slice.actions;
+export const { setAppStatusAC, setAppErrorAC } = slice.actions;
 export const appReducer = slice.reducer;
 export type InitialStateType = {
-  // происходит ли сейчас взаимодействие с сервером
   status: RequestStatusType;
-  // если ошибка какая-то глобальная произойдёт - мы запишем текст ошибки сюда
   error: string | null;
-  // true когда приложение проинициализировалось (проверили юзера, настройки получили и т.д.)
   isInitialized: boolean;
-};
-
-// thunk
-export const initializeAppTC = () => (dispatch: Dispatch) => {
-  dispatch(setAppStatusAC({ status: 'loading' }));
-  authAPI
-    .me()
-    .then(res => {
-      if (res.data.resultCode === OK_RESULT) {
-        dispatch(setAppStatusAC({ status: 'succeeded' }));
-        dispatch(setIsLoggedInAC({ value: true }));
-      }
-    })
-    .finally(() => {
-      dispatch(setAppStatusAC({ status: 'succeeded' }));
-      dispatch(setIsInitializedAC({ isInitialized: true }));
-    });
 };

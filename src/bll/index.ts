@@ -1,13 +1,9 @@
 export {
-  addTodolistAC,
-  setTodolistsAC,
   todolistsReducer,
-  removeTodolistAC,
   changeTodolistFilterAC,
-  changeTodolistTitleAC,
   changeTodolistEntityStatusAC,
   addTodolistTC,
-  getTodolistTC,
+  fetchTodolistTC,
   changeTodolistTitleTC,
   removeTodolistTC,
 } from './todolists-reducer';
@@ -19,7 +15,6 @@ export {
   setAppErrorAC,
   setAppStatusAC,
   appReducer,
-  setIsInitializedAC,
 } from './app-reducer';
 
 export {
@@ -27,9 +22,7 @@ export {
   fetchTaskTC,
   deleteTaskTC,
   updateTaskTC,
-  updateTaskAC,
   tasksReducer,
-  addTaskAC,
 } from './tasks-reducer';
 
 export type { RequestStatusType, TodolistDomainType, FilterValuesType } from './types';

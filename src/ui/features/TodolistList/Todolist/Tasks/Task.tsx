@@ -25,15 +25,25 @@ export const Task: FC<TaskPropsType> = memo(({ task, todolistId, entityStatus })
   const changeStatus = (e: ChangeEvent<HTMLInputElement>): void => {
     const newIsDoneValue = e.currentTarget.checked;
     dispatch(
-      updateTaskTC(todolistId, task.id, {
-        status: newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New,
+      updateTaskTC({
+        todolistId,
+        taskId: task.id,
+        model: {
+          status: newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New,
+        },
       }),
     );
   };
 
   const changeTaskTitle = useCallback(
     (newTitle: string) => {
-      dispatch(updateTaskTC(todolistId, task.id, { title: newTitle }));
+      dispatch(
+        updateTaskTC({
+          todolistId,
+          taskId: task.id,
+          model: { title: newTitle },
+        }),
+      );
     },
     [dispatch, todolistId, task.id],
   );

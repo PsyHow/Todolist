@@ -28,6 +28,7 @@
     "no-alert": "error",
     "no-debugger": "error",
     "no-plusplus": "error",
+    "treatUndefinedAsUnspecified": "off",
     "no-unused-vars": "off",
     "no-magic-numbers": "off",
     "default-param-last": "off",
@@ -55,7 +56,7 @@
       "error"
     ],
     "@typescript-eslint/explicit-function-return-type": [
-      "error",
+      "off",
       {
         "allowExpressions": true
       }

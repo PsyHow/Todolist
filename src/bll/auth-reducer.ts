@@ -1,6 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
-import { Dispatch } from 'redux';
 
 import { OK_RESULT } from '../constants';
 
@@ -10,32 +8,46 @@ import { FieldsErrorsType } from 'dal/todolist_api/types';
 import { handleServerAppError, handleServerNetworkError } from 'utils';
 
 // thunks
-
 export const loginTC = createAsyncThunk<
-  { isLoggedIn: boolean },
+  undefined,
   LoginRequestType,
   { rejectValue: { errors: string[]; fieldsErrors?: FieldsErrorsType[] } }
->('auth/login', async (param, thunkAPI) => {
-  thunkAPI.dispatch(setAppStatusAC({ status: 'loading' }));
+>('auth/login', async (param, { dispatch, rejectWithValue }) => {
+  dispatch(setAppStatusAC({ status: 'loading' }));
   try {
     const res = await authAPI.login(param);
     if (res.data.resultCode === OK_RESULT) {
-      thunkAPI.dispatch(setAppStatusAC({ status: 'succeeded' }));
-      return { isLoggedIn: true };
+      dispatch(setAppStatusAC({ status: 'succeeded' }));
+      return undefined;
     }
-    handleServerAppError(thunkAPI.dispatch, res.data);
-    return thunkAPI.rejectWithValue({
+    handleServerAppError(dispatch, res.data);
+    return rejectWithValue({
       errors: res.data.messages,
       fieldsErrors: res.data.fieldsErrors,
     });
-  } catch (err) {
+  } catch (error) {
     // @ts-ignore
-    const error: AxiosError = err;
-    handleServerNetworkError(error, thunkAPI.dispatch);
-    return thunkAPI.rejectWithValue({
-      errors: [error.message],
+    handleServerNetworkError(error, dispatch);
+    return rejectWithValue({
+      errors: [(error as Error).message],
       fieldsErrors: undefined,
     });
+  }
+});
+
+export const logoutTC = createAsyncThunk('auth/logout', async (param, thunkAPI) => {
+  thunkAPI.dispatch(setAppStatusAC({ status: 'loading' }));
+  try {
+    const res = await authAPI.logout();
+    if (res.data.resultCode === OK_RESULT) {
+      thunkAPI.dispatch(setAppStatusAC({ status: 'succeeded' }));
+      return param;
+    }
+    handleServerAppError(thunkAPI.dispatch, res.data);
+    return thunkAPI.rejectWithValue({});
+  } catch (error) {
+    handleServerNetworkError(error as Error, thunkAPI.dispatch);
+    return thunkAPI.rejectWithValue({});
   }
 });
 
@@ -51,31 +63,16 @@ const slice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(loginTC.fulfilled, (state, action) => {
+    builder.addCase(loginTC.fulfilled, state => {
       // eslint-disable-next-line no-param-reassign
-      state.isLoggedIn = action.payload.isLoggedIn;
+      state.isLoggedIn = true;
+    });
+    builder.addCase(logoutTC.fulfilled, state => {
+      // eslint-disable-next-line no-param-reassign
+      state.isLoggedIn = false;
     });
   },
 });
 
 export const authReducer = slice.reducer;
 export const { setIsLoggedInAC } = slice.actions;
-
-// thunks
-
-export const logoutTC = () => (dispatch: Dispatch) => {
-  dispatch(setAppStatusAC({ status: 'loading' }));
-  authAPI
-    .logout()
-    .then(res => {
-      if (res.data.resultCode === OK_RESULT) {
-        dispatch(setIsLoggedInAC({ value: false }));
-        dispatch(setAppStatusAC({ status: 'succeeded' }));
-      } else {
-        handleServerAppError(dispatch, res.data);
-      }
-    })
-    .catch((err: AxiosError) => {
-      handleServerNetworkError(err, dispatch);
-    });
-};

@@ -7,17 +7,17 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
   AppRootStateType,
-  createTaskTC,
-  fetchTaskTC,
   changeTodolistFilterAC,
   changeTodolistTitleTC,
+  createTaskTC,
+  fetchTaskTC,
   FilterValuesType,
   removeTodolistTC,
   TodolistDomainType,
 } from 'bll';
 import { TaskType } from 'dal';
 import { TaskStatuses } from 'enums';
-import { Task, AddItemForm, EditableSpan } from 'ui';
+import { AddItemForm, EditableSpan, Task } from 'ui';
 
 type PropsType = {
   todolist: TodolistDomainType;
@@ -41,14 +41,14 @@ export const Todolist: FC<PropsType> = memo(
 
     const addTask = useCallback(
       (taskTitle: string) => {
-        dispatch(createTaskTC(id, taskTitle));
+        dispatch(createTaskTC({ todolistId: id, title: taskTitle }));
       },
       [dispatch, id],
     );
 
     const changeTodolistTitle = useCallback(
       (taskTitle: string) => {
-        dispatch(changeTodolistTitleTC(id, taskTitle));
+        dispatch(changeTodolistTitleTC({ todolistId: id, title: taskTitle }));
       },
       [dispatch, id],
     );

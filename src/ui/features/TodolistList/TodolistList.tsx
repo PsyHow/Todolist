@@ -5,7 +5,12 @@ import Paper from '@mui/material/Paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-import { AppRootStateType, addTodolistTC, getTodolistTC, TodolistDomainType } from 'bll';
+import {
+  AppRootStateType,
+  addTodolistTC,
+  TodolistDomainType,
+  fetchTodolistTC,
+} from 'bll';
 import { getIsLoggedIn } from 'selectors';
 import { Todolist, AddItemForm } from 'ui';
 
@@ -22,7 +27,7 @@ export const TodolistList: FC<PropsType> = ({ demo }) => {
     if (!isLoggedIn) {
       return;
     }
-    dispatch(getTodolistTC());
+    dispatch(fetchTodolistTC());
   }, [dispatch]);
 
   const addTodolist = useCallback(
