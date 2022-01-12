@@ -1,12 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
 import { combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
-import { tasksReducer } from './tasks-reducer';
-import { todolistsReducer } from './todolists-reducer';
-
-import { appReducer } from 'bll/app-reducer';
-import { authReducer } from 'bll/auth-reducer';
+import { todolistsReducer, appReducer, authReducer, tasksReducer } from 'bll';
 
 const rootReducer = combineReducers({
   tasks: tasksReducer,
@@ -14,13 +11,14 @@ const rootReducer = combineReducers({
   app: appReducer,
   auth: authReducer,
 });
-// непосредственно создаём store
-// export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
 export const store = configureStore({
   reducer: rootReducer,
   middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunkMiddleware),
 });
+
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = (): AppDispatch => useDispatch<AppDispatch>();
 
 // определить автоматически тип всего объекта состояния
 export type AppRootStateType = ReturnType<RootReducerType>;

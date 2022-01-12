@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   AppRootStateType,
   createTaskTC,
-  getTaskTC,
+  fetchTaskTC,
   changeTodolistFilterAC,
   changeTodolistTitleTC,
   FilterValuesType,
@@ -32,7 +32,7 @@ export const Todolist: FC<PropsType> = memo(
     let tasksForTodolist = tasks;
 
     useEffect(() => {
-      dispatch(getTaskTC(id));
+      dispatch(fetchTaskTC(id));
     }, [dispatch, id]);
 
     const removeTodolist = (): void => {

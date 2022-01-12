@@ -19,7 +19,7 @@ export const Task: FC<TaskPropsType> = memo(({ task, todolistId, entityStatus })
   const dispatch = useDispatch();
 
   const removeTask = (): void => {
-    dispatch(deleteTaskTC(todolistId, task.id));
+    dispatch(deleteTaskTC({ todolistId, taskId: task.id }));
   };
 
   const changeStatus = (e: ChangeEvent<HTMLInputElement>): void => {

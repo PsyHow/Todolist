@@ -8,17 +8,18 @@ import FormGroup from '@mui/material/FormGroup';
 import FormLabel from '@mui/material/FormLabel';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import { useFormik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
+import { FormikHelpers, useFormik } from 'formik';
+import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
 import { PASS_LENGTH } from '../../../constants';
 
-import { loginTC, AppRootStateType } from 'bll';
+import { AppRootStateType, loginTC } from 'bll';
+import { useAppDispatch } from 'bll/store';
 import { getIsLoggedIn } from 'selectors';
 
 export const Login: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const isLoggedIn = useSelector<AppRootStateType, boolean>(getIsLoggedIn);
 
@@ -44,9 +45,14 @@ export const Login: FC = () => {
       }
       return errors;
     },
-    onSubmit: values => {
-      formik.resetForm();
-      dispatch(loginTC(values));
+    onSubmit: async (values, formikHelpers: FormikHelpers<FormValuesType>) => {
+      const action = await dispatch(loginTC(values));
+      if (loginTC.rejected.match(action)) {
+        if (action.payload?.fieldsErrors?.length) {
+          const error = action.payload?.fieldsErrors[0];
+          formikHelpers.setFieldError(error.field, error.error);
+        }
+      }
     },
   });
 
@@ -116,4 +122,10 @@ type FormikErrorType = {
   email?: string;
   password?: string;
   rememberMe?: boolean;
+};
+
+type FormValuesType = {
+  email: string;
+  password: string;
+  rememberMe: boolean;
 };

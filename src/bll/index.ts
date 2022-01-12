@@ -24,13 +24,11 @@ export {
 
 export {
   createTaskTC,
-  getTaskTC,
+  fetchTaskTC,
   deleteTaskTC,
   updateTaskTC,
   updateTaskAC,
-  setTaskAC,
   tasksReducer,
-  removeTaskAC,
   addTaskAC,
 } from './tasks-reducer';
 

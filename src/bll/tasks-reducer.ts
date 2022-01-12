@@ -1,11 +1,11 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { Dispatch } from 'redux';
 
 import { INDEX_CHECK, OK_RESULT, SPLICE_ELEMENT } from '../constants';
 
 import { AppRootStateType } from './store';
-import { addTodolistAC, setTodolistsAC, removeTodolistAC } from './todolists-reducer';
+import { addTodolistAC, removeTodolistAC, setTodolistsAC } from './todolists-reducer';
 
 import { TasksStateType } from 'App';
 import { setAppStatusAC } from 'bll';
@@ -15,17 +15,32 @@ import { handleServerAppError, handleServerNetworkError } from 'utils';
 
 const initialState: TasksStateType = {};
 
+// thunks
+export const fetchTaskTC = createAsyncThunk(
+  'tasks/fetchTasks',
+  async (todolistId: string, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatusAC({ status: 'loading' }));
+    const res = await todolistAPI.getTasks(todolistId);
+    const tasks = res.data.items;
+    thunkAPI.dispatch(setAppStatusAC({ status: 'succeeded' }));
+    return { tasks, todolistId };
+  },
+);
+
+export const deleteTaskTC = createAsyncThunk(
+  'tasks/deleteTask',
+  async (param: { todolistId: string; taskId: string }, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatusAC({ status: 'loading' }));
+    await todolistAPI.deleteTask(param.todolistId, param.taskId);
+    thunkAPI.dispatch(setAppStatusAC({ status: 'succeeded' }));
+    return { todolistId: param.todolistId, taskId: param.taskId };
+  },
+);
+
 const slice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    removeTaskAC(state, action: PayloadAction<{ taskId: string; todolistId: string }>) {
-      const tasks = state[action.payload.todolistId];
-      const index = tasks.findIndex(t => t.id === action.payload.taskId);
-      if (index > INDEX_CHECK) {
-        tasks.splice(index, SPLICE_ELEMENT);
-      }
-    },
     addTaskAC(state, action: PayloadAction<{ task: TaskType }>) {
       state[action.payload.task.todoListId].unshift(action.payload.task);
     },
@@ -43,10 +58,6 @@ const slice = createSlice({
         tasks[index] = { ...tasks[index], ...action.payload.model };
       }
     },
-    setTaskAC(state, action: PayloadAction<{ todolistID: string; tasks: TaskType[] }>) {
-      // eslint-disable-next-line no-param-reassign
-      state[action.payload.todolistID] = action.payload.tasks;
-    },
   },
   extraReducers: builder => {
     builder.addCase(addTodolistAC, (state, action) => {
@@ -63,41 +74,25 @@ const slice = createSlice({
         state[tl.id] = [];
       });
     });
+    builder.addCase(fetchTaskTC.fulfilled, (state, action) => {
+      // eslint-disable-next-line no-param-reassign
+      state[action.payload.todolistId] = action.payload.tasks;
+    });
+    builder.addCase(deleteTaskTC.fulfilled, (state, action) => {
+      const tasks = state[action.payload.todolistId];
+      const index = tasks.findIndex(t => t.id === action.payload.taskId);
+      if (index > INDEX_CHECK) {
+        tasks.splice(index, SPLICE_ELEMENT);
+      }
+    });
   },
 });
 
 export const tasksReducer = slice.reducer;
 
-export const { removeTaskAC, addTaskAC, updateTaskAC, setTaskAC } = slice.actions;
+export const { addTaskAC, updateTaskAC } = slice.actions;
 
 // thunk
-export const getTaskTC = (todolistId: string) => (dispatch: Dispatch) => {
-  dispatch(setAppStatusAC({ status: 'loading' }));
-  todolistAPI
-    .getTasks(todolistId)
-    .then(res => {
-      dispatch(setAppStatusAC({ status: 'succeeded' }));
-      const tasks = res.data.items;
-      dispatch(setTaskAC({ todolistID: todolistId, tasks }));
-    })
-    .catch((err: AxiosError) => {
-      handleServerNetworkError(err, dispatch);
-    });
-};
-
-export const deleteTaskTC =
-  (todolistId: string, taskId: string) => (dispatch: Dispatch) => {
-    dispatch(setAppStatusAC({ status: 'loading' }));
-    todolistAPI
-      .deleteTask(todolistId, taskId)
-      .then(() => {
-        dispatch(setAppStatusAC({ status: 'succeeded' }));
-        dispatch(removeTaskAC({ taskId, todolistId }));
-      })
-      .catch((err: AxiosError) => {
-        handleServerNetworkError(err, dispatch);
-      });
-  };
 
 export const createTaskTC =
   (todolistId: string, title: string) => (dispatch: Dispatch) => {

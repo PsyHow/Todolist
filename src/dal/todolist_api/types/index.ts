@@ -1,10 +1,15 @@
 import { TaskPriorities, TaskStatuses } from 'enums';
 import { Nullable } from 'types';
 
+export type FieldsErrorsType = {
+  field: string;
+  error: string;
+};
+
 export type ResponseType<D = {}> = {
   resultCode: number;
-  messages: Array<string>;
-  fieldsErrors: Array<string>;
+  messages: string[];
+  fieldsErrors?: FieldsErrorsType[];
   data: D;
 };
 
