@@ -1,6 +1,6 @@
 import { v1 } from 'uuid';
 
-import { TodolistType } from '../dal';
+import { FilterValuesType, RequestStatusType, TodolistDomainType } from './types';
 
 import {
   addTodolistAC,
@@ -10,8 +10,8 @@ import {
   removeTodolistAC,
   setTodolistsAC,
   todolistsReducer,
-} from './todolists-reducer';
-import { FilterValuesType, RequestStatusType, TodolistDomainType } from './types';
+} from 'bll';
+import { TodolistType } from 'dal';
 
 let todolistId1: string;
 let todolistId2: string;

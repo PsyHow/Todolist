@@ -9,7 +9,8 @@ import { AppRootStateType, addTodolistTC, getTodolistTC, TodolistDomainType } fr
 import { getIsLoggedIn } from 'selectors';
 import { Todolist, AddItemForm } from 'ui';
 
-export const TodolistList: FC = () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const TodolistList: FC<PropsType> = ({ demo }) => {
   const dispatch = useDispatch();
 
   const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(
@@ -51,4 +52,10 @@ export const TodolistList: FC = () => {
       </Grid>
     </>
   );
+};
+
+// types
+type PropsType = {
+  // eslint-disable-next-line react/require-default-props
+  demo?: boolean;
 };

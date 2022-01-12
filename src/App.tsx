@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { initializeAppTC, RequestStatusType, AppRootStateType, logoutTC } from 'bll';
+import { AppRootStateType, initializeAppTC, logoutTC, RequestStatusType } from 'bll';
 import { TaskType } from 'dal';
 import { getIsLoggedIn } from 'selectors';
 import { ErrorSnackbar, Login, TodolistList } from 'ui';
@@ -21,7 +21,7 @@ export type TasksStateType = {
   [key: string]: Array<TaskType>;
 };
 
-const App: FC = () => {
+const App: FC<PropsType> = ({ demo }) => {
   const dispatch = useDispatch();
 
   const status = useSelector<AppRootStateType, RequestStatusType>(
@@ -33,7 +33,9 @@ const App: FC = () => {
   const isLoggedIn = useSelector<AppRootStateType, boolean>(getIsLoggedIn);
 
   useEffect(() => {
-    dispatch(initializeAppTC());
+    if (!demo) {
+      dispatch(initializeAppTC());
+    }
   }, []);
 
   const logoutHandle = (): void => {
@@ -74,7 +76,7 @@ const App: FC = () => {
       </AppBar>
       <Container fixed>
         <Routes>
-          <Route path="/" element={<TodolistList />} />
+          <Route path="/" element={<TodolistList demo={demo} />} />
           <Route path="login" element={<Login />} />
           <Route
             path="404"
@@ -88,3 +90,9 @@ const App: FC = () => {
 };
 
 export default App;
+
+// types
+type PropsType = {
+  // eslint-disable-next-line react/require-default-props
+  demo?: boolean;
+};

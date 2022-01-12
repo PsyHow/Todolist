@@ -50,13 +50,16 @@ const slice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(addTodolistAC, (state, action) => {
+      // eslint-disable-next-line no-param-reassign
       state[action.payload.todolist.id] = [];
     });
     builder.addCase(removeTodolistAC, (state, action) => {
+      // eslint-disable-next-line no-param-reassign
       delete state[action.payload.id];
     });
     builder.addCase(setTodolistsAC, (state, action) => {
       action.payload.todolists.forEach((tl: any) => {
+        // eslint-disable-next-line no-param-reassign
         state[tl.id] = [];
       });
     });
