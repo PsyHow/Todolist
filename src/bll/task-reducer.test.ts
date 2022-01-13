@@ -1,13 +1,14 @@
+import { TasksStateType } from 'App';
 import {
+  addTodolistTC,
+  fetchTodolistTC,
+  removeTodolistTC,
   createTaskTC,
   deleteTaskTC,
   fetchTaskTC,
   tasksReducer,
   updateTaskTC,
-} from './tasks-reducer';
-import { addTodolistTC, fetchTodolistTC, removeTodolistTC } from './todolists-reducer';
-
-import { TasksStateType } from 'App';
+} from 'bll';
 import { TaskPriorities, TaskStatuses } from 'enums';
 
 let startState: TasksStateType = {};

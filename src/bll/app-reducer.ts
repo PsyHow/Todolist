@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { OK_RESULT } from '../constants';
-
 import { RequestStatusType, setIsLoggedInAC } from 'bll';
+import { OK_RESULT } from 'const';
 import { authAPI } from 'dal';
 import { Nullable } from 'types';
 

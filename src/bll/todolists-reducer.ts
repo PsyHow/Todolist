@@ -1,13 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { INDEX_CHECK, OK_RESULT, SPLICE_ELEMENT } from '../constants';
-
 import {
   FilterValuesType,
   RequestStatusType,
   setAppStatusAC,
   TodolistDomainType,
 } from 'bll';
+import { INDEX_CHECK, OK_RESULT, SPLICE_ELEMENT } from 'const';
 import { todolistAPI } from 'dal';
 import { handleServerAppError, handleServerNetworkError } from 'utils';
 

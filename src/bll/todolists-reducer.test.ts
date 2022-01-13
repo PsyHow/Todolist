@@ -1,8 +1,9 @@
 import { v1 } from 'uuid';
 
-import { FilterValuesType, RequestStatusType, TodolistDomainType } from './types';
-
 import {
+  FilterValuesType,
+  RequestStatusType,
+  TodolistDomainType,
   addTodolistTC,
   changeTodolistEntityStatusAC,
   changeTodolistFilterAC,

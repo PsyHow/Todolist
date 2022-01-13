@@ -6,11 +6,11 @@ import IconButton from '@mui/material/IconButton';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
+  createTaskTC,
+  fetchTaskTC,
   AppRootStateType,
   changeTodolistFilterAC,
   changeTodolistTitleTC,
-  createTaskTC,
-  fetchTaskTC,
   FilterValuesType,
   removeTodolistTC,
   TodolistDomainType,
@@ -27,7 +27,9 @@ export const Todolist: FC<PropsType> = memo(
   ({ todolist: { id, title, filter, entityStatus } }) => {
     const dispatch = useDispatch();
 
-    const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[id]);
+    const tasks = useSelector<AppRootStateType, TaskType[]>(
+      state => state.tasksReducer[id],
+    );
 
     let tasksForTodolist = tasks;
 

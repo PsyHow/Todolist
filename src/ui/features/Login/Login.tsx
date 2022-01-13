@@ -12,16 +12,14 @@ import { FormikHelpers, useFormik } from 'formik';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-import { PASS_LENGTH } from '../../../constants';
-
-import { AppRootStateType, loginTC } from 'bll';
-import { useAppDispatch } from 'bll/store';
-import { getIsLoggedIn } from 'selectors';
+import { loginTC, useAppDispatch } from 'bll';
+import { PASS_LENGTH } from 'const';
+import { selectIsLoggedIn } from 'selectors';
 
 export const Login: FC = () => {
   const dispatch = useAppDispatch();
 
-  const isLoggedIn = useSelector<AppRootStateType, boolean>(getIsLoggedIn);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const formik = useFormik({
     initialValues: {

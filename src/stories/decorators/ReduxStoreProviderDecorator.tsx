@@ -11,13 +11,12 @@ import {
   appReducer,
   AppRootStateType,
   authReducer,
-  RootReducerType,
   tasksReducer,
   todolistsReducer,
 } from 'bll';
 import { TaskPriorities, TaskStatuses } from 'enums/enums';
 
-const rootReducer: RootReducerType = combineReducers({
+const rootReducer: any = combineReducers({
   tasks: tasksReducer,
   todolists: todolistsReducer,
   app: appReducer,
@@ -25,7 +24,7 @@ const rootReducer: RootReducerType = combineReducers({
 });
 
 const initialGlobalState: AppRootStateType = {
-  todolists: [
+  todolistsReducer: [
     {
       id: 'todolistId1',
       title: 'What to learn',
@@ -43,7 +42,7 @@ const initialGlobalState: AppRootStateType = {
       order: 0,
     },
   ],
-  tasks: {
+  tasksReducer: {
     todolistId1: [
       {
         id: v1(),
@@ -97,12 +96,12 @@ const initialGlobalState: AppRootStateType = {
       },
     ],
   },
-  app: {
+  appReducer: {
     error: null,
     status: 'succeeded',
     isInitialized: true,
   },
-  auth: {
+  authReducer: {
     isLoggedIn: true,
   },
 };

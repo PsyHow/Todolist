@@ -6,5 +6,6 @@ export type {
   TaskType,
   UpdateTaskModelType,
   TodolistType,
+  GetTasksResponse,
 } from './todolist_api';
 export { todolistAPI } from './todolist_api';

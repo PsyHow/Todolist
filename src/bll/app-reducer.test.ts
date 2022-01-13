@@ -1,9 +1,4 @@
-import {
-  appReducer,
-  InitialStateType,
-  setAppErrorAC,
-  setAppStatusAC,
-} from './app-reducer';
+import { appReducer, InitialStateType, setAppErrorAC, setAppStatusAC } from 'bll';
 
 let startState: InitialStateType;
 

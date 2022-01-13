@@ -17,16 +17,18 @@ export {
   appReducer,
 } from './app-reducer';
 
+export type { InitialStateType } from './app-reducer';
+
 export {
-  createTaskTC,
-  fetchTaskTC,
-  deleteTaskTC,
-  updateTaskTC,
   tasksReducer,
+  updateTaskTC,
+  createTaskTC,
+  deleteTaskTC,
+  fetchTaskTC,
 } from './tasks-reducer';
 
 export type { RequestStatusType, TodolistDomainType, FilterValuesType } from './types';
 
 export type { AppRootStateType, RootReducerType } from './store';
 
-export { store } from './store';
+export { store, useAppDispatch } from './store';

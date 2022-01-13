@@ -4,8 +4,8 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setAppErrorAC, AppRootStateType } from 'bll';
-import { Nullable } from 'types';
+import { setAppErrorAC } from 'bll';
+import { selectAppError } from 'selectors';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
@@ -13,7 +13,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => (
 ));
 
 export const ErrorSnackbar: FC = () => {
-  const error = useSelector<AppRootStateType, Nullable<string>>(state => state.app.error);
+  const error = useSelector(selectAppError);
   const dispatch = useDispatch();
 
   const handleClose = (event?: React.SyntheticEvent, reason?: string): void => {

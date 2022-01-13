@@ -12,4 +12,4 @@ export default {
   decorators: [ReduxStoreProviderDecorator, BrowserRouterDecorator],
 };
 
-export const AppBaseExample = (): any => <App demo />;
+export const AppBaseExample = (): any => <App />;

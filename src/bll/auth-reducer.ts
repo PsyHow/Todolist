@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { OK_RESULT } from '../constants';
-
 import { setAppStatusAC } from 'bll';
+import { OK_RESULT } from 'const';
 import { authAPI, LoginRequestType } from 'dal';
 import { FieldsErrorsType } from 'dal/todolist_api/types';
 import { handleServerAppError, handleServerNetworkError } from 'utils';

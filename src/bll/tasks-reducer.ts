@@ -1,12 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { INDEX_CHECK, OK_RESULT, SPLICE_ELEMENT } from '../constants';
-
-import { AppRootStateType } from './store';
-import { addTodolistTC, fetchTodolistTC, removeTodolistTC } from './todolists-reducer';
-
 import { TasksStateType } from 'App';
-import { setAppStatusAC } from 'bll';
+import {
+  addTodolistTC,
+  AppRootStateType,
+  fetchTodolistTC,
+  removeTodolistTC,
+  setAppStatusAC,
+} from 'bll';
+import { INDEX_CHECK, OK_RESULT, SPLICE_ELEMENT } from 'const';
 import { todolistAPI, UpdateTaskModelType } from 'dal';
 import { TaskStatuses } from 'enums';
 import { handleServerAppError, handleServerNetworkError } from 'utils';
@@ -61,7 +63,7 @@ export const updateTaskTC = createAsyncThunk(
     { dispatch, rejectWithValue, getState },
   ) => {
     const state = getState() as AppRootStateType;
-    const task = state.tasks[param.todolistId].find(t => t.id === param.taskId);
+    const task = state.tasksReducer[param.todolistId].find(t => t.id === param.taskId);
     if (!task) {
       return rejectWithValue('task not found in the state');
     }
